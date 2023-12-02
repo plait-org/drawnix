@@ -10,4 +10,10 @@
     .drawnix-icon-button:not(:last-child) {
         margin-right: 8px;
     }
+
+    .drawnix-icon-button {
+        &.active {
+            background-color: rgba(red, 0.3);
+        }
+    }
 }

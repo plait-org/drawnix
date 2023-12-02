@@ -20,7 +20,7 @@ import { ToolbarComponent } from "../components/toolbar/toolbar.component";
     imports: [CommonModule, PlaitBoardComponent, ToolbarComponent]
 })
 export class EditorComponent {
-  plugins = [withFreehand, withCommon];
+  plugins = [withCommon, withFreehand];
   value: PlaitElement[] = [];
 
   options: PlaitBoardOptions = {

@@ -11,12 +11,10 @@ import {
 } from '@plait/core';
 import { BoardCreationMode, isDrawingMode, setCreationMode } from '@plait/common';
 import { FreehandShape, PlaitFreehand } from './interfaces/free-hand';
-import { FreehandPointerType, getFreehandPointers } from './pointer';
+import { FreehandPointerType, getFreehandPointers, getHotkeyByPointer } from './pointer';
 import { PenShapeGenerator } from './generator/pen-shape.generator';
 import { createFreehandElement } from './utils';
 import { DefaultFreehandProperty } from './constants/freehand';
-
-const hotKey = ['1', 'p'];
 
 export const withFreehandCreate = (board: PlaitBoard) => {
   const { pointerDown, pointerMove, pointerUp, keydown } = board;
@@ -34,8 +32,16 @@ export const withFreehandCreate = (board: PlaitBoard) => {
         keydown(event);
         return;
     }
-    if (hotKey.includes(event.key) && !PlaitBoard.isPointer(board, FreehandShape.ballpointPen)) {
-        BoardTransforms.updatePointerType(board, FreehandShape.ballpointPen);
+    let targetPointer: FreehandShape | PlaitPointerType | null = null;
+    const pointers = [...getFreehandPointers(), PlaitPointerType.selection];
+    pointers.forEach((pointer) => {
+      const hotKeys = getHotkeyByPointer(pointer);
+      if (hotKeys.includes(event.key) && !PlaitBoard.isPointer(board, pointer)) {
+        targetPointer = pointer;
+      }
+    })
+    if (targetPointer) {
+        BoardTransforms.updatePointerType(board, targetPointer);
         setCreationMode(board, BoardCreationMode.drawing);
         event.preventDefault();
         return;

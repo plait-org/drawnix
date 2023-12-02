@@ -1,6 +1,7 @@
 import { Generator } from '@plait/common';
-import { PlaitFreehand } from '../interfaces/free-hand';
+import { FreehandShape, PlaitFreehand } from '../interfaces/free-hand';
 import { PlaitBoard, setStrokeLinecap } from '@plait/core';
+import { Options } from 'roughjs/bin/core';
 
 export interface PenShapeData {}
 
@@ -10,10 +11,11 @@ export class PenShapeGenerator extends Generator<PlaitFreehand, PenShapeData> {
   }
 
   baseDraw(element: PlaitFreehand, data: PenShapeData) {
-    const points = element.points.map((value) => {
-      return { x: value[0], y: value[1] };
-    });
-    const g = PlaitBoard.getRoughSVG(this.board).curve(element.points, { strokeWidth: 24 });
+    let option: Options =
+      element.shape === FreehandShape.ballpointPen
+        ? { strokeWidth: 4 }
+        : { strokeWidth: 12, stroke: '#f08c00' };
+    const g = PlaitBoard.getRoughSVG(this.board).curve(element.points, option);
     setStrokeLinecap(g, 'round');
     return g;
   }
