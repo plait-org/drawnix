@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "projects",
+  "newProjectRoot": "packages",
   "projects": {
     "drawnix": {
       "projectType": "application",
@@ -11,26 +11,26 @@
         }
       },
       "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
+      "sourceRoot": "apps/web",
+      "prefix": "drawnix",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/drawnix",
-            "index": "src/index.html",
-            "browser": "src/main.ts",
+            "index": "apps/web/index.html",
+            "browser": "apps/web/main.ts",
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "apps/web/favicon.ico",
+              "apps/web/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "apps/web/styles.scss"
             ],
             "scripts": []
           },
@@ -59,6 +59,9 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "port": 7200
+          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
@@ -86,13 +89,46 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "apps/web/favicon.ico",
+              "apps/web/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "apps/web/styles.scss"
             ],
             "scripts": []
+          }
+        }
+      }
+    },
+    "pen": {
+      "projectType": "library",
+      "root": "packages/pen",
+      "sourceRoot": "packages/pen/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "packages/pen/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/pen/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "packages/pen/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "packages/pen/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
           }
         }
       }

@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'slate-angular/styles/index.scss';
+@use '@plait/text/styles/styles.scss' as text;
+@use '@plait/core/styles/styles.scss' as core;
+@import './components/toolbar/toolbar.component.scss';
+@import './components/icon-button/icon-button.component.scss';
+@import './editor/editor.component.scss';
+
+html, body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
